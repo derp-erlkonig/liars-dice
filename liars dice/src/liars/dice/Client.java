@@ -31,21 +31,21 @@ import java.util.logging.Logger;
 /**
  *
  * @author Allen Raab
- * TODO: 
+ * TODO: parse the address into an inetaddress
  */
 public class Client {
     private Socket me;
-    private String name;
+    private String address;
     private int port;
     
     //*instantiation of Client automatically attempts connection
-    public Client(String n, int p){
-        name = n;
+    public Client(String a, int p){
+        address = a;
         port = p;
-        System.out.println("Attempting to reach address: "+name+":"+port);
+        System.out.println("Attempting to reach address: "+address+":"+port);
         
         try {
-            me = new Socket(name, port);
+            me = new Socket(address, port);
             
             
         } catch (IOException ex) {
