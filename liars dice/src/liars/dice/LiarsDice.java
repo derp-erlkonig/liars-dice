@@ -15,12 +15,7 @@ public class LiarsDice {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        tylerisabigoletiddy();
         // TODO code application logic here
-    }
-
-    private static void tylerisabigoletiddy() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }
