@@ -23,4 +23,7 @@ public class LiarsDice {
         throw new UnsupportedOperationException("Not supported yet by bra straps."); //To change body of generated methods, choose Tools | Templates.
     }
     
+    private void thisIsATest(){
+        
+    }
 }
