@@ -23,18 +23,34 @@
  */
 package liars.dice;
 
+import java.io.IOException;
+import java.net.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Allen Raab
+ * TODO: 
  */
-public class LiarsDice {
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        //Server serv = new Server(7777, 2);
-        Client clie = new Client("10.0.0.1", 9999);
+public class Client {
+    private Socket me;
+    private String name;
+    private int port;
+    
+    //*instantiation of Client automatically attempts connection
+    public Client(String n, int p){
+        name = n;
+        port = p;
+        System.out.println("Attempting to reach address: "+name+":"+port);
+        
+        try {
+            me = new Socket(name, port);
+            
+            
+        } catch (IOException ex) {
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
 }

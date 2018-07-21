@@ -27,14 +27,7 @@ package liars.dice;
  *
  * @author Allen Raab
  */
-public class LiarsDice {
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        //Server serv = new Server(7777, 2);
-        Client clie = new Client("10.0.0.1", 9999);
-    }
-    
+public abstract class Command {
+    public String name;
 }
