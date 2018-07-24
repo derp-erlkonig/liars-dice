@@ -112,8 +112,8 @@ public class LiarsDice extends Application {
     //Creates the randomly generated set
         public static void reroll(){
         for(int i = 0; i<diceRolled.length; i++){
-            diceRolled[i] = (int) (Math.random() * 6 + 1);
-            //System.out.println(diceRolled[i]);
+        diceRolled[i] = (int) (Math.random() * 6 + 1);
+        //System.out.println(diceRolled[i]);
             }
         }
         

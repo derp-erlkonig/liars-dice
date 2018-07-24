@@ -23,39 +23,11 @@
  */
 package liars.dice;
 
-import java.io.IOException;
-import java.net.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 /**
  *
  * @author Allen Raab
- * TODO: command interpreter
  */
-public class Client {
-    private Socket me;
-    private String address;
-    private InetAddress adrs;
-    private int port;
-    
-    //*instantiation of Client automatically attempts connection
-    public Client(String a, int p){
-        address = a;
-        port = p;
-        
-        byte[] BAddress = new byte[4];
-        String[] str = address.split("//.");
-        for(int i = 0; i<4; i++){
-            BAddress[i] = (byte) Integer.parseInt(str[i]);
-        }
-        System.out.println("Attempting to reach address: "+address+":"+port);
-        try {
-            adrs = InetAddress.getByAddress(BAddress);
-            me = new Socket(adrs, port);
-        } catch (IOException ex) {
-            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    
+
+public abstract class Command {
+    public String name;
 }

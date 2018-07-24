@@ -26,10 +26,11 @@ import java.net.*;
 import java.io.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Stream;
 /**
  *
  * @author Allen Raab
- * TODO:  setup protocols for sending and receiving data
+ * TODO: get clients in, make sure ins and outs is a good solution, setup protocols for sending and receiving data
  */
 public class Server {
 
@@ -38,8 +39,7 @@ public class Server {
     private boolean isReady; //for starting prior to clients at capacity of maxClients
     private PrintWriter[] outs; //testing making individual ins and outs for every client
     private BufferedReader[] ins;
-    int index;
-    private Thread[] threads;
+    
     
     public Server(int p, int mC){
         
@@ -48,7 +48,7 @@ public class Server {
         clients = new Socket[maxClients];
         outs = new PrintWriter[maxClients];
         ins = new BufferedReader[maxClients];
-        threads = new Thread[maxClients];
+        
         try{
             //creates new server socket for hosting comms at the specified port
             ServerSocket servSock = new ServerSocket(port);
@@ -57,48 +57,18 @@ public class Server {
             for(int i=0; i<maxClients; i++){
                 System.out.println("Waiting for clients to connect...");
                 
-                index = i;
                 clients[i] = servSock.accept();
+            
                 outs[i] =
                     new PrintWriter(clients[i].getOutputStream(), true);
+
                 ins[i] = new BufferedReader(
                     new InputStreamReader(clients[i].getInputStream()));
                 
-                threads[i] = new Thread(() -> {
-                    boolean isConnected = true;
-                    while(isConnected) {
-                        try {
-                            ins[index].readLine();
-                        } catch (Exception ex) {
-                            outs[index].println("Oh shit.");
-                            System.out.println("Oh shit.");
-                            if(ex instanceof IOException){
-                                try {
-                                    ins[index].close();
-                                    outs[index].close();
-                                    clients[index].close();
-                                    
-                                } catch (IOException ex1) {
-                                    Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex1);
-                                }
-                                
-                                isConnected = false;
-                            }
-                        }
-                        
-                        
-                    }
-                });
-                
-                threads[i].start();
-
                 //prints welcome message to client (hopefully, havent tested yet)
                 outs[i].println("Welcome to the server!");
                 
                 System.out.println("Client has connected from: "+clients[i].toString());
-                
-                if(isReady)
-                    break;
                 }
             
             System.out.println("Setup Complete! Moving to gameplay!");
@@ -109,9 +79,8 @@ public class Server {
     }
     
     
-    public String sendCommand(String command, int clientNum){
-        outs[clientNum].println(command);
-        return command;
+    public void sendCommand(Command c, Client p){
+     
     }
     
     
@@ -123,7 +92,6 @@ public class Server {
     }
     public void setPort(int p){
         port = p;
-        System.out.println("lol no can do, bud");
     }
     public int getPort(){
         return port;
