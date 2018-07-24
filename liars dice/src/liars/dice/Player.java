@@ -28,5 +28,40 @@ package liars.dice;
  * @author Allen Raab
  */
 public class Player {
+
+    private int playerNumber;
+    private int[] diceNumbers;
+    private int numberOfDice;
+    
+    Player(){
+        int playerNumber;
+        int numberOfDice;
+        int[] diceNumbers;
+    }
+    
+    
+    public int getPlayerNumber(){
+        return playerNumber;
+    }
+    
+    public void setNumberOfDice(int numb){
+        numberOfDice = numb;
+    }
+    
+    public void setPlayerNumber(int numb){
+        playerNumber = numb;
+    }
+    
+    public int getNumberOfDice(){
+        return numberOfDice;
+    }
+    
+    public int[] getDiceNumbers(){
+        return diceNumbers;
+    }
+    
+    public void setDiceNumbers(int[] diceNumb){
+        diceNumbers = diceNumb;
+    }
     
 }

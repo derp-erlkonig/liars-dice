@@ -36,18 +36,25 @@ import java.util.logging.Logger;
 public class Client {
     private Socket me;
     private String address;
+    private InetAddress adrs;
     private int port;
     
     //*instantiation of Client automatically attempts connection
     public Client(String a, int p){
         address = a;
         port = p;
-        System.out.println("Attempting to reach address: "+address+":"+port);
         
+        int index = address.indexOf(".");
+        byte[] BAddress = new byte[4];
+        for(int i = 0; i < 4; i++){
+            int part = Integer.parseInt(address.substring(i, index));
+            BAddress[i] = (byte) part;
+            index = address.indexOf(".",index);
+        }
+        System.out.println("Attempting to reach address: "+address+":"+port);
         try {
-            me = new Socket(address, port);
-            
-            
+            adrs.getByAddress(BAddress);
+            me = new Socket(adrs, port);            
         } catch (IOException ex) {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
         }
