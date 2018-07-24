@@ -23,7 +23,9 @@
  */
 package liars.dice;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -38,9 +40,12 @@ public class Client {
     private String address;
     private InetAddress adrs;
     private int port;
+    private BufferedReader in;
+    private Player plr;
     
     //*instantiation of Client automatically attempts connection
     public Client(String a, int p){
+        plr = new Player();
         address = a;
         port = p;
         
@@ -53,9 +58,26 @@ public class Client {
         try {
             adrs = InetAddress.getByAddress(BAddress);
             me = new Socket(adrs, port);
+            in =new BufferedReader(
+                    new InputStreamReader(me.getInputStream()));
         } catch (IOException ex) {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        if(me != null){
+            System.out.println("Successfully connected!");
+        }
+        new Thread(() ->{
+            boolean isConnected = true;
+            while(isConnected) {
+                try {
+                    plr.processCommands(in.readLine());
+                } catch (IOException ex) {
+                    Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+                      
+        }).start();
     }
     
 }
