@@ -31,7 +31,7 @@ import java.util.logging.Logger;
 /**
  *
  * @author Allen Raab
- * TODO: parse the address into an inetaddress
+ * TODO: command interpreter
  */
 public class Client {
     private Socket me;
@@ -44,17 +44,15 @@ public class Client {
         address = a;
         port = p;
         
-        int index = address.indexOf(".");
         byte[] BAddress = new byte[4];
-        for(int i = 0; i < 4; i++){
-            int part = Integer.parseInt(address.substring(i, index));
-            BAddress[i] = (byte) part;
-            index = address.indexOf(".",index);
+        String[] str = address.split("//.");
+        for(int i = 0; i<4; i++){
+            BAddress[i] = (byte) Integer.parseInt(str[i]);
         }
         System.out.println("Attempting to reach address: "+address+":"+port);
         try {
-            adrs.getByAddress(BAddress);
-            me = new Socket(adrs, port);            
+            adrs = InetAddress.getByAddress(BAddress);
+            me = new Socket(adrs, port);
         } catch (IOException ex) {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
         }
