@@ -33,7 +33,7 @@ import javafx.scene.layout.StackPane;
 public class LiarsDice extends Application {
 
 
-    static int[] diceRolled = new int[12];
+    static int[] diceRolled = new int[18];
     static int diceIndex = 0;
     static int diceTotals;
     static List<Player> list = new ArrayList<Player>();
@@ -131,7 +131,7 @@ public class LiarsDice extends Application {
         Player player1 = createPlayer("Player 1", 6, 0);
         
         //this sets it into its designated area
-        player1.setDiceNumbers(Arrays.copyOfRange(diceRolled, 0, player1.getNumberOfDice()));
+        player1.setDiceNumbers(Arrays.copyOfRange(diceRolled, 6*counter, player1.getNumberOfDice()+(6*counter)));
         list.add(player1);
         
         Stage liarsDiceGame = new Stage();
@@ -141,7 +141,7 @@ public class LiarsDice extends Application {
         liarsDiceGame.setX(counter*30);
         liarsDiceGame.setTitle("Liar's Dice");
         Label dice1 = new Label();
-        dice1.setText(player1.getDiceNumbers().toString());
+        dice1.setText(Arrays.toString(player1.getDiceNumbers()));
         
         root.getChildren().add(dice1);
         liarsDiceGame.show();
