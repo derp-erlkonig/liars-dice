@@ -28,6 +28,8 @@ package liars.dice;
  *
  * @author Allen Raab
  * @author Tyler O'Connell
+ * 
+ * TODO: link processCommands to all other commands
  */
 public class Player {
 
@@ -42,7 +44,18 @@ public class Player {
         int[] diceNumbers;
         String playerName;
     }
-    
+    //setDiceNumbers [1,3,3,6,1...]
+    public void processCommands(String c){
+        if(c.contains("setDiceNumbers")){
+            String[] parser = c.substring(c.indexOf("[")+1,c.indexOf("]")).split(",");
+            
+            int[] n = new int[parser.length];
+            for(int i=0;i<parser.length;i++){
+                n[i] = Integer.parseInt(parser[i]);
+            }
+            setDiceNumbers(n);
+        }
+    }
     
     public int getPlayerNumber(){
         return playerNumber;
