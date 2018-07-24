@@ -4,15 +4,24 @@
  * and open the template in the editor.
  */
 package liars.dice;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import javafx.stage.Stage;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 
 
@@ -26,6 +35,8 @@ public class LiarsDice extends Application {
 
     static int[] diceRolled = new int[12];
     static int diceIndex = 0;
+    static int diceTotals;
+    static List<Player> list = new ArrayList<Player>();
     
     /**
      * @param args the command line arguments
@@ -40,54 +51,60 @@ public class LiarsDice extends Application {
     
   
     public void start(Stage liarsDiceGame){
-        initializeGame();
-        liarsDiceGame.setTitle("Liar's Dice");
-        Label dice1 = new Label();
+        reroll();
         StackPane root = new StackPane();
-        root.getChildren().add(dice1);
-        
-        
-        liarsDiceGame.setScene(new Scene(root, 300, 250));
+        liarsDiceGame.setScene(new Scene(root, 500, 500));
         liarsDiceGame.show();
+        numberOfPlayers(liarsDiceGame,root);
+        //display(liarsDiceGame,root);
     }
     
-    public static void initializeGame(){
+    public static void numberOfPlayers(Stage liarsDiceGame, StackPane root){
+       GridPane grid = new GridPane();
+    grid.setVgap(4);
+    grid.setHgap(10);
+    grid.setPadding(new Insets(5, 5, 5, 5));
         
-        
-        reroll();
-        
-        //testing out the player creation
-        Player player1 = new Player();
-        player1.setPlayerNumber(1);
-        player1.setNumberOfDice(6);
-        
-        //this sets it into its designated area
-        player1.setDiceNumbers(Arrays.copyOfRange(diceRolled, 0, player1.getNumberOfDice()));
-        int[] temp = player1.getDiceNumbers();
-        System.out.println("Player 1 Rolls");
-        
-        //print method for testing currently
-        for(int i = 0; i < player1.getNumberOfDice(); i++){
-            System.out.println(temp[i]);
+    Label chooseLabel = new Label("How many players?");
+    grid.add(chooseLabel, 0, 0);
+    
+        ObservableList<Integer> options = 
+    FXCollections.observableArrayList(
+        1,
+        2,
+       3
+    );
+    final ComboBox comboBox = new ComboBox(options);
+    
+    
+    grid.add(comboBox, 3, 0);
+    
+    Button confirmButton = new Button("Confirm");
+    confirmButton.setPrefHeight(20);
+    confirmButton.setVisible(false);
+    grid.add(confirmButton, 4, 3);
+    root.getChildren().add(grid);
+    
+    comboBox.valueProperty().addListener(new ChangeListener<Integer>() {
+        @Override
+        public void changed(ObservableValue ov, Integer t, Integer t1) {
+          System.out.println(ov);
+            System.out.println(t);
+            System.out.println(t1);
+            confirmButton.setVisible(true);
+        }    
+    });
+    
+    confirmButton.setOnAction(new EventHandler<ActionEvent>(){
+    public void handle (ActionEvent e) {
+        confirmButton.setText("Clicked");
+        for(int i = 0; i <= comboBox.getSelectionModel().selectedIndexProperty().get(); i++){
+        display(i);
         }
-        
-        //shifts the read point for the next player
-        diceIndex += player1.getNumberOfDice();
-
-        //testing out player 2
-        Player player2 = new Player();
-        player2.setPlayerNumber(2);
-        player2.setDiceNumbers(Arrays.copyOfRange(diceRolled, diceIndex, diceRolled.length));
-        player2.setNumberOfDice(6);
-        
-        //printing out the products
-        temp = player2.getDiceNumbers();
-        System.out.println("Player 2 Rolls");
-        for(int i = 0; i < player2.getNumberOfDice(); i++){
-            System.out.println(temp[i]);
-        }
-        
-        
+        liarsDiceGame.hide();
+    }
+    });
+    
     }
     
     //Creates the randomly generated set
@@ -99,13 +116,36 @@ public class LiarsDice extends Application {
         }
         
         //creates a new Player
-        public Player createPlayer(){
+        static public Player createPlayer(String Name, int startingDice, int playerNumber){
             Player newPlayer = new Player();
+            newPlayer.setPlayerName(Name);
+            newPlayer.setNumberOfDice(startingDice);
+            newPlayer.setPlayerNumber(playerNumber);
             return newPlayer;
         }
         
-    
-        public void display(){
-            
+ 
+    public static void display(int counter){
+        
+        //testing out the player creation
+        Player player1 = createPlayer("Player 1", 6, 0);
+        
+        //this sets it into its designated area
+        player1.setDiceNumbers(Arrays.copyOfRange(diceRolled, 0, player1.getNumberOfDice()));
+        list.add(player1);
+        
+        Stage liarsDiceGame = new Stage();
+        StackPane root = new StackPane();
+        
+        liarsDiceGame.setScene(new Scene(root, 500,500));
+        liarsDiceGame.setX(counter*30);
+        liarsDiceGame.setTitle("Liar's Dice");
+        Label dice1 = new Label();
+        dice1.setText(player1.getDiceNumbers().toString());
+        
+        root.getChildren().add(dice1);
+        liarsDiceGame.show();
+        
+        
         }
 }
