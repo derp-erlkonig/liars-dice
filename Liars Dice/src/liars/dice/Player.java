@@ -2,6 +2,7 @@
  * The MIT License
  *
  * Copyright 2018 Allen Raab.
+ * Copyright 2018 Tyler O'Connell.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,17 +27,20 @@ package liars.dice;
 /**
  *
  * @author Allen Raab
+ * @author Tyler O'Connell
  */
 public class Player {
 
     private int playerNumber;
     private int[] diceNumbers;
     private int numberOfDice;
+    private String playerName;
     
     Player(){
         int playerNumber;
         int numberOfDice;
         int[] diceNumbers;
+        String playerName;
     }
     
     
@@ -62,6 +66,14 @@ public class Player {
     
     public void setDiceNumbers(int[] diceNumb){
         diceNumbers = diceNumb;
+    }
+    
+    public String getPlayerName(){
+        return playerName;
+    }
+    
+    public void setPlayerName(String name){
+        playerName = name;
     }
     
 }

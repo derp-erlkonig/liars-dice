@@ -5,11 +5,23 @@
  */
 package liars.dice;
 import java.util.Arrays;
+import javafx.stage.Stage;
+import javafx.application.Application;
+import static javafx.application.Application.launch;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.layout.StackPane;
+
+
 /**
  *
  * @author allen
+ * @author Tyler O'Connell
  */
-public class LiarsDice {
+public class LiarsDice extends Application {
 
 
     static int[] diceRolled = new int[12];
@@ -22,18 +34,27 @@ public class LiarsDice {
         //need to run them in separate threads
         //Server serv = new Server(7777, 2);
         //Client client = new Client("10.0.0.1",7777);
+        launch(args);
+        
+    }
+    
+  
+    public void start(Stage liarsDiceGame){
         initializeGame();
+        liarsDiceGame.setTitle("Liar's Dice");
+        Label dice1 = new Label();
+        StackPane root = new StackPane();
+        root.getChildren().add(dice1);
+        
+        
+        liarsDiceGame.setScene(new Scene(root, 300, 250));
+        liarsDiceGame.show();
     }
     
     public static void initializeGame(){
         
         
-        //Creates the randomly generated set
-        //will become its own method
-        for(int i = 0; i<diceRolled.length; i++){
-        diceRolled[i] = (int) (Math.random() * 6 + 1);
-        //System.out.println(diceRolled[i]);
-    }
+        reroll();
         
         //testing out the player creation
         Player player1 = new Player();
@@ -66,5 +87,25 @@ public class LiarsDice {
             System.out.println(temp[i]);
         }
         
+        
     }
+    
+    //Creates the randomly generated set
+        public static void reroll(){
+        for(int i = 0; i<diceRolled.length; i++){
+        diceRolled[i] = (int) (Math.random() * 6 + 1);
+        //System.out.println(diceRolled[i]);
+            }
+        }
+        
+        //creates a new Player
+        public Player createPlayer(){
+            Player newPlayer = new Player();
+            return newPlayer;
+        }
+        
+    
+        public void display(){
+            
+        }
 }
