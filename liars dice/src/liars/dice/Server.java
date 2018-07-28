@@ -29,7 +29,7 @@ import java.util.logging.Logger;
 /**
  *
  * @author Allen Raab
- * TODO:  setup protocols for sending and receiving data
+ * TODO:  server start override and vote start
  */
 public class Server {
 
