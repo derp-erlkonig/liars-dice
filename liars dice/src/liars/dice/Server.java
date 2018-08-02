@@ -68,13 +68,15 @@ public class Server {
                     break;
             }
             System.out.println("Setup Complete! Moving to gameplay!");
+            
+            //put in the game logic here (or method for that)
         }
         catch (IOException ex) {
             System.err.print(ex);
         }}).start();
     }
     
-    public static boolean processInput(String in, int pl){
+    public static synchronized boolean processInput(String in, int pl){
         if(in.contains("voteStart")){
             readies++;
             return true;

@@ -115,5 +115,4 @@ public class Player {
     public void setPlayerName(String name){
         playerName = name;
     }
-    
 }
