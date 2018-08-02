@@ -45,13 +45,47 @@ public class Client {
     private boolean isConnected;
     
     //*instantiation of Client automatically attempts connection
+    public Client(String a){
+        plr = new Player();
+        String[] parser = a.split("\\:");
+        port = Integer.parseInt(parser[2]);
+        byte[] BAddress = new byte[4];
+        String[] str = parser[0].split("\\.");
+        for(int i = 0; i<4; i++){
+            BAddress[i] = (byte) Integer.parseInt(str[i]);
+        }
+        System.out.println("Attempting to reach address: "+ a);
+        try {
+            adrs = InetAddress.getByAddress(BAddress);
+            me = new Socket(adrs, port);
+            in =new BufferedReader(
+                    new InputStreamReader(me.getInputStream()));
+        } catch (IOException ex) {
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        if(me != null){
+            isConnected = true;
+            System.out.println("Successfully connected!");
+        }
+        
+        while(isConnected){
+            try {
+                if(!plr.processCommands(in.readLine()))
+                    System.out.println("Error processing command");
+            } catch (IOException ex) {
+                Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+                isConnected = false;
+            }
+        }
+    }
     public Client(String a, int p){
         plr = new Player();
         address = a;
         port = p;
         
         byte[] BAddress = new byte[4];
-        String[] str = address.split("//.");
+        String[] str = address.split("\\.");
         for(int i = 0; i<4; i++){
             BAddress[i] = (byte) Integer.parseInt(str[i]);
         }

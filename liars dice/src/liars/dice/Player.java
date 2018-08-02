@@ -50,7 +50,7 @@ public class Player {
     //biggest waste of a method
     public boolean processCommands(String c){
         if(c.contains("setDiceNumbers")){
-            String[] parser = c.substring(c.indexOf("[")+1,c.indexOf("]")).split(",");
+            String[] parser = c.substring(c.indexOf("\\[")+1,c.indexOf("\\]")).split("\\,");
             
             int[] n = new int[parser.length];
             for(int i=0;i<parser.length;i++){
@@ -60,7 +60,7 @@ public class Player {
                 return true;
         }
         else if(c.contains("setPlayerName")){
-            String[] parser = c.split(" ");
+            String[] parser = c.split("\\ ");
             String nam = "";
             for(int i=1;i<parser.length;i++){
                 nam += parser[i];
@@ -68,8 +68,10 @@ public class Player {
             setPlayerName(nam);
             return true;
         }
-        else if(c.contains("")){
-            
+        else if(c.contains("setPlayerNumber")){
+            String[] parser = c.split("\\ ");
+            setPlayerNumber(Integer.parseInt(parser[1]));
+            return true;
         }
         
         return false;

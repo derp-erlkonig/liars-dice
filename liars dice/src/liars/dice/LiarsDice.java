@@ -49,6 +49,48 @@ import javafx.scene.layout.StackPane;
  * @author Allen Raab
  * @author Tyler O'Connell
  */
+
+/*  TO DO IN UI TYPE STUFF AND ALSO SOME LOGIC MIXED IN FOR SHITS AND GIGGLES
+
+    PRE PLAY
+    UI needs to open to welcome page, ask if client or server or both.
+    if server/both,(on server window/part)ask for how many players and on what port to host.
+        select # of players, # of dice per player, then have accept button for confirm.
+        default port sets to 7777.
+        
+    if client, have inputs for address and port. make clear can just enter address with just colon port
+        default port sets to 7777.
+    
+    lobby
+        need chat
+        need list of players
+        general info
+    
+    PLAY
+    need QUIT and CHAT
+
+        BEGIN ROUND
+        some kinda animation/feedback for rolling
+
+        show hand
+        show number of values in condensed form in corner*
+
+        show size of hands in players display
+
+        if first player, need VALUE SELECT and AMOUNT SELECT
+
+        feedback on whose turn it is
+
+        if not first, need RAISE and CALL
+        
+        if CALL, feedback & round end
+        
+        AFTER ROUND END
+        show overall value & numbers listing
+
+        begin new round
+*/
+
 public class LiarsDice extends Application {
 
 
@@ -57,12 +99,11 @@ public class LiarsDice extends Application {
     static int diceTotals;
     static List<Player> list = new ArrayList<Player>();
     
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
         launch(args);
-        
+        //new Server(7777,2);
+        //new Client("127.0.0.1",7777);
+        //new Client("127.0.0.1",7777);
     }
     
   
