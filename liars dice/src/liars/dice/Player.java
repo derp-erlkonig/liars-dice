@@ -39,10 +39,13 @@ public class Player {
     private String playerName;
     
     Player(){
-        int playerNumber;
-        int numberOfDice;
-        int[] diceNumbers;
-        String playerName;
+    }
+    
+    Player(int pN, int sD, String nm){
+        playerNumber = pN;
+        numberOfDice = sD;
+        diceNumbers = new int[numberOfDice];
+        playerName = nm;
     }
     //biggest waste of a method
     public boolean processCommands(String c){

@@ -133,10 +133,7 @@ public class LiarsDice extends Application {
 
     //creates a new Player
     static public Player createPlayer(String Name, int startingDice, int playerNumber){
-        Player newPlayer = new Player();
-        newPlayer.setPlayerName(Name);
-        newPlayer.setNumberOfDice(startingDice);
-        newPlayer.setPlayerNumber(playerNumber);
+        Player newPlayer = new Player(playerNumber,startingDice,Name);
         return newPlayer;
     }
         

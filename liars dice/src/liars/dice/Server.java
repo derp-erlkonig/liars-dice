@@ -67,6 +67,7 @@ public class Server {
                 
                 threads[i] = new Thread(() -> {
                     boolean isConnected = true;
+                    outs[index].println("setPlayerNumber"+index);
                     while(isConnected) {
                         try {
                             if(!Server.processInput(ins[index].readLine()))
