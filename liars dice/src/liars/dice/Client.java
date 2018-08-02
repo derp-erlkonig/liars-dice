@@ -42,6 +42,7 @@ public class Client {
     private int port;
     private BufferedReader in;
     private Player plr;
+    private boolean isConnected;
     
     //*instantiation of Client automatically attempts connection
     public Client(String a, int p){
@@ -65,19 +66,19 @@ public class Client {
         }
         
         if(me != null){
+            isConnected = true;
             System.out.println("Successfully connected!");
         }
-        new Thread(() ->{
-            boolean isConnected = true;
-            while(isConnected) {
-                try {
-                    plr.processCommands(in.readLine());
-                } catch (IOException ex) {
-                    Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
-                }
+        
+        while(isConnected){
+            try {
+                if(!plr.processCommands(in.readLine()))
+                    System.out.println("Error processing command");
+            } catch (IOException ex) {
+                Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+                isConnected = false;
             }
-                      
-        }).start();
+        }
     }
     
 }

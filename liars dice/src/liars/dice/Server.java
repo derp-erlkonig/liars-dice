@@ -29,7 +29,7 @@ import java.util.logging.Logger;
 /**
  *
  * @author Allen Raab
- * TODO:  server start override and vote start
+ * TODO:  setup protocols for sending and receiving data
  */
 public class Server {
 
@@ -43,6 +43,7 @@ public class Server {
     
     public Server(int p, int mC){
         
+        boolean vote = false;
         port = p;
         maxClients = mC;
         clients = new Socket[maxClients];
@@ -68,7 +69,8 @@ public class Server {
                     boolean isConnected = true;
                     while(isConnected) {
                         try {
-                            ins[index].readLine();
+                            if(!Server.processInput(ins[index].readLine()))
+                                isConnected = false;
                         } catch (Exception ex) {
                             outs[index].println("Oh shit.");
                             System.out.println("Oh shit.");
@@ -85,8 +87,6 @@ public class Server {
                                 isConnected = false;
                             }
                         }
-                        
-                        
                     }
                 });
                 
@@ -97,7 +97,7 @@ public class Server {
                 
                 System.out.println("Client has connected from: "+clients[i].toString());
                 
-                if(isReady)
+                if(isReady || vote)
                     break;
                 }
             
@@ -106,6 +106,17 @@ public class Server {
         catch (IOException ex) {
             Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
         }
+        //insert game logic here v
+        
+        
+        
+    }
+    
+    public static boolean processInput(String in){
+        if(in.contains("vote")){
+            
+        }
+        return false;
     }
     
     

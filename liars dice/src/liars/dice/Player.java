@@ -44,8 +44,8 @@ public class Player {
         int[] diceNumbers;
         String playerName;
     }
-    //setDiceNumbers [1,3,3,6,1...]
-    public void processCommands(String c){
+    //biggest waste of a method
+    public boolean processCommands(String c){
         if(c.contains("setDiceNumbers")){
             String[] parser = c.substring(c.indexOf("[")+1,c.indexOf("]")).split(",");
             
@@ -53,8 +53,23 @@ public class Player {
             for(int i=0;i<parser.length;i++){
                 n[i] = Integer.parseInt(parser[i]);
             }
-            setDiceNumbers(n);
+            if(setDiceNumbers(n))
+                return true;
         }
+        else if(c.contains("setPlayerName")){
+            String[] parser = c.split(" ");
+            String nam = "";
+            for(int i=1;i<parser.length;i++){
+                nam += parser[i];
+            }
+            setPlayerName(nam);
+            return true;
+        }
+        else if(c.contains("")){
+            
+        }
+        
+        return false;
     }
     
     public int getPlayerNumber(){
@@ -77,8 +92,15 @@ public class Player {
         return diceNumbers;
     }
     
-    public void setDiceNumbers(int[] diceNumb){
-        diceNumbers = diceNumb;
+    public boolean setDiceNumbers(int[] diceNumb){
+        if(diceNumb.length == diceNumbers.length){
+            diceNumbers = diceNumb;
+            return true;
+        }
+        else{
+            System.err.println("Hand Size Mismatch");
+            return false;
+        }
     }
     
     public String getPlayerName(){
