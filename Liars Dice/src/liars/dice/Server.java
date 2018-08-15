@@ -34,15 +34,15 @@ import java.util.logging.Logger;
  * TODO:  setup protocols for sending and receiving data
  */
 public class Server {
-
-    private int port, maxClients; //intended max connections
-    private boolean vote; //for starting prior to clients at capacity of maxClients
+    private static int bet, amt, totalAmt;
+    private int port, maxClients, turnCounter; 
+    private boolean ready, isPlaying;
     Connection[] connections;
     static int readies = 0;
     private Thread[] threads;
     
     public Server(int p, int mC){
-        vote = false;
+        ready = false;
         port = p;
         maxClients = mC;
         readies = 0;
@@ -56,32 +56,56 @@ public class Server {
             //creates new server socket for hosting comms at the specified port
             ServerSocket servSock = new ServerSocket(port);
             
-            //waits until full clients, plan on allowing early start via isReady
+            //waits until full clients or vote or override 
             for(int i=0; i<maxClients; i++){
                 System.out.println("Waiting for clients to connect...");
                 connections[i] = new Connection(servSock.accept(), i, this).start();
                 connections[i].send("Welcome to the server!");
                 System.out.println("Client has connected from: "+connections[i].socket.toString());
-                if(readies >= (connections.length/2))
-                    vote = true;
-                if(vote)
+                if(readies >= (connections.length/2) || ready)
                     break;
             }
             System.out.println("Setup Complete! Moving to gameplay!");
-            
+            isPlaying = true;
             //put in the game logic here (or method for that)
+            gameplay();
         }
         catch (IOException ex) {
             System.err.print(ex);
         }}).start();
     }
     
+    public void gameplay(){
+        turnCounter = 0;
+        bet = 0;
+        amt = 0;
+        
+        while(isPlaying){
+            
+            int currentPlayer = turnCounter%connections.length;
+            connections[currentPlayer].out.println("Your turn!");
+            
+            if(bet == 0){
+                connections[currentPlayer].out.println("Select a value and amount");
+                connections[currentPlayer].out.println("/bet");
+            }else{
+                connections[currentPlayer].out.println("Raise or Call");
+                connections[currentPlayer].out.println("/rOrC");
+            }
+            
+        }
+    }
+    
     public static synchronized boolean processInput(String in, int pl){
         if(in.contains("voteStart")){
             readies++;
             return true;
-        }else if(in.contains("")){
-            
+        }else if(in.contains("call")){
+            if(amt > totalAmt){
+                
+            }else{
+                    
+                    }
         }
         return false;
     }
@@ -92,7 +116,7 @@ public class Server {
         return command;
     } 
     public void ready(){
-        vote = true;
+        ready = true;
     }
     public void setMaxClients(int m){
         maxClients = m;

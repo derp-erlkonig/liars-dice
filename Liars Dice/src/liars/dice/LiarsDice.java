@@ -122,7 +122,7 @@ public class LiarsDice extends Application {
         StackPane root = new StackPane();
         liarsDiceGame.setScene(new Scene(root, 500, 500));
         liarsDiceGame.show();
-        
+        liarsDiceGame.setTitle("Liars' Dice");
         
         GridPane grid = new GridPane();
         grid.setVgap(4);
@@ -167,11 +167,25 @@ public class LiarsDice extends Application {
     
     public static void clientStartUpDisplay(Stage liarsDiceGame, StackPane root, GridPane grid){
         root.getChildren().remove(grid);
+        
+        
+        Label iPLabel = new Label("IP:");
+        grid.add(iPLabel,0,2);
+        
+        final TextField iPField = new TextField("");
+        grid.add(iPField,1,2);
+        
         Label portLabel = new Label("Port Number");
-        grid.add(portLabel,0,2);
+        grid.add(portLabel,0,3);
         
         final TextField portTextField = new TextField("7777");
-        grid.add(portTextField,1,2);
+        grid.add(portTextField,1,3);
+        
+        Label nameLabel = new Label("Name:");
+        grid.add(nameLabel,0,4);
+        
+        final TextField nameField = new TextField("I am a dummy");
+        grid.add(nameField,1,4);
         
         Button confirmButton = new Button("Confirm");
         confirmButton.setPrefHeight(20);
@@ -236,6 +250,12 @@ public class LiarsDice extends Application {
         grid.add(portTextField,1,2);
         portTextField.setVisible(false);
         
+        Label nameLabel = new Label("Name:");
+        grid.add(nameLabel,0,3);
+        
+        final TextField nameField = new TextField("I am a dummy");
+        grid.add(nameField,1,3);
+        
         Button confirmButton = new Button("Confirm");
         confirmButton.setPrefHeight(20);
         confirmButton.setVisible(false);
@@ -272,7 +292,7 @@ public class LiarsDice extends Application {
             reroll();
             confirmButton.setText("Clicked");
             for(int i = 0; i <= comboBox.getSelectionModel().selectedIndexProperty().get(); i++){
-            playerGeneration(i, diceComboBox.getSelectionModel().getSelectedIndex()+1);
+            playerGeneration(i, diceComboBox.getSelectionModel().getSelectedIndex()+1, nameField.getText());
             }
             
             //
@@ -302,14 +322,14 @@ public class LiarsDice extends Application {
     }
         
  
-    public static void playerGeneration(int counter, int diceNumber){
+    public static void playerGeneration(int counter, int diceNumber, String playerName){
         
         BorderPane border = new BorderPane();
         border.setPadding(new Insets(5, 5, 5, 5));
         
         
         //testing out the player creation
-        Player player = createPlayer("Player " + counter, diceNumber, counter);
+        Player player = createPlayer(playerName, diceNumber, counter);
         
         //this sets it into its designated area
         player.setDiceNumbers(Arrays.copyOfRange(diceRolled, diceNumber*counter, player.getNumberOfDice()+(diceNumber*counter)));
@@ -327,17 +347,22 @@ public class LiarsDice extends Application {
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
         
+        Label turnLabel = new Label();
+        turnLabel.setText(player.getPlayerName());
+        
+        grid.add(turnLabel, 1, 0);
+        
         Label dice1 = new Label();
         dice1.setText(Arrays.toString(player.getDiceNumbers()));
         
-        grid.add(dice1, 0, 0);
+        grid.add(dice1, 1, 1);
         
         TextField textbox = new TextField();
         
-        grid.add(textbox, 0, 1);
+        grid.add(textbox, 1, 2);
         
         Button sendButton = new Button("Send");
-        grid.add(sendButton, 1, 1);
+        grid.add(sendButton, 2, 2);
         
         HBox hbox = new HBox();
         hbox.setPadding(new Insets(15, 12, 15, 12));
@@ -345,8 +370,8 @@ public class LiarsDice extends Application {
         hbox.setStyle("-fx-background-color: #333333;");
         hbox.setAlignment(Pos.CENTER);
         
-        Button higherButton = new Button("Higher");
-        Button lowerButton = new Button("Lower");
+        Button raiseButton = new Button("Raise");
+        Button callButton = new Button("Call");
         
         
         
@@ -365,15 +390,14 @@ public class LiarsDice extends Application {
 
         
         
-        Label text = new Label("Test The node placed on the bottom edge of this border pane. If resizable, it will be resized to its preferred height and it's width will span the width of the border pane. If the node cannot be resized to fill the bottom space (it's not resizable or its max size prevents it) then it will be aligned bottom-left within the space unless the child's alignment constraint has been set.");
+        Label text = new Label("");
         text.setWrapText(true);
         
-        text.setText(text.getText() + "\n\n\nIt works");
         textchat.setContent(text);
         textchat.setFitToWidth(true);
         
-        hbox.getChildren().add(higherButton);
-        hbox.getChildren().add(lowerButton);
+        hbox.getChildren().add(raiseButton);
+        hbox.getChildren().add(callButton);
         
         border.setCenter(grid);
         border.setTop(hbox);
