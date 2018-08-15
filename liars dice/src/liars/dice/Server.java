@@ -101,18 +101,11 @@ public class Server {
             readies++;
             return true;
         }else if(in.contains("call")){
-            
             if(amt > totalAmt){
-                System.out.println("bad call");
-                //dish out the dice to callee
+                
             }else{
-                System.out.println("good call");
-                //dish out the dice to caller
-            }
-            
-        }else if(in.contains("raise")){
-            bet = Integer.parseInt(in.split(" ")[1]);
-            System.out.println("The amount has been raised to: " + bet);
+                    
+                    }
         }
         return false;
     }
