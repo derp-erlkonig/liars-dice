@@ -36,13 +36,20 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 
 
 /**
@@ -126,7 +133,7 @@ public class LiarsDice extends Application {
         grid.add(clientButton, 0,2);
         clientButton.setVisible(true);
         
-        Button serverButton = new Button("Server");
+        Button serverButton = new Button("Host");
         grid.add(serverButton, 3, 2);
         serverButton.setVisible(true);
         
@@ -294,12 +301,16 @@ public class LiarsDice extends Application {
  
     public static void playerGeneration(int counter, int diceNumber){
         
+        BorderPane border = new BorderPane();
+        border.setPadding(new Insets(5, 5, 5, 5));
+        
+        
         //testing out the player creation
-        Player player1 = createPlayer("Player 1", diceNumber, counter);
+        Player player = createPlayer("Player " + counter, diceNumber, counter);
         
         //this sets it into its designated area
-        player1.setDiceNumbers(Arrays.copyOfRange(diceRolled, diceNumber*counter, player1.getNumberOfDice()+(diceNumber*counter)));
-        list.add(player1);
+        player.setDiceNumbers(Arrays.copyOfRange(diceRolled, diceNumber*counter, player.getNumberOfDice()+(diceNumber*counter)));
+        list.add(player);
         
         Stage liarsDiceGame = new Stage();
         StackPane root = new StackPane();
@@ -307,10 +318,73 @@ public class LiarsDice extends Application {
         liarsDiceGame.setScene(new Scene(root, 500,500));
         liarsDiceGame.setX(counter*30);
         liarsDiceGame.setTitle("Liar's Dice");
-        Label dice1 = new Label();
-        dice1.setText(Arrays.toString(player1.getDiceNumbers()));
+        liarsDiceGame.setMinHeight(500);
         
-        root.getChildren().add(dice1);
+        
+        Label dice1 = new Label();
+        dice1.setText(Arrays.toString(player.getDiceNumbers()));
+        
+        HBox hbox = new HBox();
+        hbox.setPadding(new Insets(15, 12, 15, 12));
+        hbox.setSpacing(10);
+        hbox.setStyle("-fx-background-color: #333333;");
+        hbox.setAlignment(Pos.CENTER);
+        
+        Button higherButton = new Button("Higher");
+        Button lowerButton = new Button("Lower");
+        
+        VBox textchat = new VBox();
+        VBox.setVgrow(textchat, Priority.NEVER);
+        textchat.setStyle("-fx-background-color: #ffffff;");
+        textchat.setAlignment(Pos.TOP_LEFT);
+        textchat.setPrefHeight(20);
+        textchat.setMaxHeight(20);
+        
+        
+        
+        
+        Label text = new Label("Test");
+        text.setWrapText(true);
+        Label text2 = new Label("Test2");
+        Label text3 = new Label("Test3");
+        Label text21 = new Label("Test2");
+        Label text31 = new Label("Test3");
+        Label text22 = new Label("Test2");
+        Label text32 = new Label("Test3");
+        Label text23 = new Label("Test2");
+        Label text33 = new Label("Test3");
+        Label text24 = new Label("Test2");
+        Label text34 = new Label("Test3");
+        Label text25 = new Label("Test2");
+        Label text35 = new Label("Test3");
+        Label text26 = new Label("Test2");
+        Label text36 = new Label("Test3");
+        
+        
+        
+        textchat.getChildren().add(text);
+        textchat.getChildren().add(text21);
+        textchat.getChildren().add(text31);
+        textchat.getChildren().add(text22);
+        textchat.getChildren().add(text32);
+        textchat.getChildren().add(text23);
+        textchat.getChildren().add(text33);
+        textchat.getChildren().add(text24);
+        textchat.getChildren().add(text34);
+        textchat.getChildren().add(text25);
+        textchat.getChildren().add(text35);
+        textchat.getChildren().add(text26);
+        textchat.getChildren().add(text36);
+        
+        hbox.getChildren().add(higherButton);
+        hbox.getChildren().add(lowerButton);
+        
+        border.setCenter(dice1);
+        border.setTop(hbox);
+        border.setBottom(textchat);
+        border.bottomProperty();
+        
+        root.getChildren().add(border);
         liarsDiceGame.show();
         
         
