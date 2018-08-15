@@ -39,22 +39,42 @@ public class Player {
     private String playerName;
     
     Player(){
-        int playerNumber;
-        int numberOfDice;
-        int[] diceNumbers;
-        String playerName;
     }
-    //setDiceNumbers [1,3,3,6,1...]
-    public void processCommands(String c){
+    
+    Player(int pN, int sD, String nm){
+        playerNumber = pN;
+        numberOfDice = sD;
+        diceNumbers = new int[numberOfDice];
+        playerName = nm;
+    }
+    //biggest waste of a method
+    public boolean processCommands(String c){
         if(c.contains("setDiceNumbers")){
-            String[] parser = c.substring(c.indexOf("[")+1,c.indexOf("]")).split(",");
+            String[] parser = c.substring(c.indexOf("\\[")+1,c.indexOf("\\]")).split("\\,");
             
             int[] n = new int[parser.length];
             for(int i=0;i<parser.length;i++){
                 n[i] = Integer.parseInt(parser[i]);
             }
-            setDiceNumbers(n);
+            if(setDiceNumbers(n))
+                return true;
         }
+        else if(c.contains("setPlayerName")){
+            String[] parser = c.split("\\ ");
+            String nam = "";
+            for(int i=1;i<parser.length;i++){
+                nam += parser[i];
+            }
+            setPlayerName(nam);
+            return true;
+        }
+        else if(c.contains("setPlayerNumber")){
+            String[] parser = c.split("\\ ");
+            setPlayerNumber(Integer.parseInt(parser[1]));
+            return true;
+        }
+        
+        return false;
     }
     
     public int getPlayerNumber(){
@@ -77,8 +97,15 @@ public class Player {
         return diceNumbers;
     }
     
-    public void setDiceNumbers(int[] diceNumb){
-        diceNumbers = diceNumb;
+    public boolean setDiceNumbers(int[] diceNumb){
+        if(diceNumb.length == diceNumbers.length){
+            diceNumbers = diceNumb;
+            return true;
+        }
+        else{
+            System.err.println("Hand Size Mismatch");
+            return false;
+        }
     }
     
     public String getPlayerName(){
@@ -88,5 +115,4 @@ public class Player {
     public void setPlayerName(String name){
         playerName = name;
     }
-    
 }
