@@ -36,11 +36,14 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollBar;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
@@ -321,8 +324,20 @@ public class LiarsDice extends Application {
         liarsDiceGame.setMinHeight(500);
         
         
+        GridPane grid = new GridPane();
+        grid.setAlignment(Pos.CENTER);
+        
         Label dice1 = new Label();
         dice1.setText(Arrays.toString(player.getDiceNumbers()));
+        
+        grid.add(dice1, 0, 0);
+        
+        TextField textbox = new TextField();
+        
+        grid.add(textbox, 0, 1);
+        
+        Button sendButton = new Button("Send");
+        grid.add(sendButton, 1, 1);
         
         HBox hbox = new HBox();
         hbox.setPadding(new Insets(15, 12, 15, 12));
@@ -333,60 +348,50 @@ public class LiarsDice extends Application {
         Button higherButton = new Button("Higher");
         Button lowerButton = new Button("Lower");
         
-        VBox textchat = new VBox();
-        VBox.setVgrow(textchat, Priority.NEVER);
+        
+        
+        ScrollPane textchat = new ScrollPane();
         textchat.setStyle("-fx-background-color: #ffffff;");
-        textchat.setAlignment(Pos.TOP_LEFT);
-        textchat.setPrefHeight(20);
-        textchat.setMaxHeight(20);
+        textchat.setPrefHeight(100);
+        textchat.setMaxHeight(100);
         
         
         
+        textchat.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
+        textchat.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        textchat.setContent(textchat);
         
-        Label text = new Label("Test");
+        
+
+        
+        
+        Label text = new Label("Test The node placed on the bottom edge of this border pane. If resizable, it will be resized to its preferred height and it's width will span the width of the border pane. If the node cannot be resized to fill the bottom space (it's not resizable or its max size prevents it) then it will be aligned bottom-left within the space unless the child's alignment constraint has been set.");
         text.setWrapText(true);
-        Label text2 = new Label("Test2");
-        Label text3 = new Label("Test3");
-        Label text21 = new Label("Test2");
-        Label text31 = new Label("Test3");
-        Label text22 = new Label("Test2");
-        Label text32 = new Label("Test3");
-        Label text23 = new Label("Test2");
-        Label text33 = new Label("Test3");
-        Label text24 = new Label("Test2");
-        Label text34 = new Label("Test3");
-        Label text25 = new Label("Test2");
-        Label text35 = new Label("Test3");
-        Label text26 = new Label("Test2");
-        Label text36 = new Label("Test3");
         
-        
-        
-        textchat.getChildren().add(text);
-        textchat.getChildren().add(text21);
-        textchat.getChildren().add(text31);
-        textchat.getChildren().add(text22);
-        textchat.getChildren().add(text32);
-        textchat.getChildren().add(text23);
-        textchat.getChildren().add(text33);
-        textchat.getChildren().add(text24);
-        textchat.getChildren().add(text34);
-        textchat.getChildren().add(text25);
-        textchat.getChildren().add(text35);
-        textchat.getChildren().add(text26);
-        textchat.getChildren().add(text36);
+        text.setText(text.getText() + "\n\n\nIt works");
+        textchat.setContent(text);
+        textchat.setFitToWidth(true);
         
         hbox.getChildren().add(higherButton);
         hbox.getChildren().add(lowerButton);
         
-        border.setCenter(dice1);
+        border.setCenter(grid);
         border.setTop(hbox);
         border.setBottom(textchat);
         border.bottomProperty();
-        
         root.getChildren().add(border);
         liarsDiceGame.show();
         
+        
+                sendButton.setOnAction(new EventHandler<ActionEvent>(){
+        public void handle (ActionEvent e) {
+            
+            
+           sendButton.setText("Sent");
+           text.setText(text.getText() + "\n" + textbox.getText());
+            textbox.clear();
+        }
+        });
         
         }
 }
