@@ -64,16 +64,8 @@ import javafx.scene.layout.VBox;
 /*  TO DO IN UI TYPE STUFF AND ALSO SOME LOGIC MIXED IN FOR SHITS AND GIGGLES
 
     PRE PLAY
-    UI needs to open to welcome page, ask if client or server or both.
-    if server/both,(on server window/part)ask for how many players and on what port to host.
-        select # of players, # of dice per player, then have accept button for confirm.
-        default port sets to 7777.
-        
-    if client, have inputs for address and port. make clear can just enter address with just colon port
-        default port sets to 7777.
-    
+ 
     lobby
-        need chat
         need list of players
         general info
     
@@ -120,7 +112,7 @@ public class LiarsDice extends Application {
   
     public void start(Stage liarsDiceGame){
         StackPane root = new StackPane();
-        liarsDiceGame.setScene(new Scene(root, 500, 500));
+        liarsDiceGame.setScene(new Scene(root, 600, 500));
         liarsDiceGame.show();
         liarsDiceGame.setTitle("Liars' Dice");
         
@@ -129,8 +121,11 @@ public class LiarsDice extends Application {
         grid.setHgap(10);
         grid.setPadding(new Insets(5, 5, 5, 5));
         
+        Label welcomeLabel = new Label("Welcome to Liar's Dice");
+        grid.add(welcomeLabel, 1, 0);
+        
         Label choiceLabel = new Label("Run as client or host?");
-        grid.add(choiceLabel, 1, 0);
+        grid.add(choiceLabel, 1, 1);
         
         Button clientButton = new Button("Client");
         grid.add(clientButton, 0,2);
@@ -169,19 +164,19 @@ public class LiarsDice extends Application {
         root.getChildren().remove(grid);
         
         
-        Label iPLabel = new Label("IP:");
+        Label iPLabel = new Label("IP: Ex(1.2.3.4:7777 or 1.2.3.4)");
         grid.add(iPLabel,0,2);
         
         final TextField iPField = new TextField("");
         grid.add(iPField,1,2);
         
-        Label portLabel = new Label("Port Number");
+        Label portLabel = new Label("Port Number: (if not included in IP)");
         grid.add(portLabel,0,3);
         
         final TextField portTextField = new TextField("7777");
         grid.add(portTextField,1,3);
         
-        Label nameLabel = new Label("Name:");
+        Label nameLabel = new Label("Player Name:");
         grid.add(nameLabel,0,4);
         
         final TextField nameField = new TextField("I am a dummy");
