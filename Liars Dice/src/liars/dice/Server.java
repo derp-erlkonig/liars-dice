@@ -27,6 +27,7 @@ import java.net.*;
 import java.io.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import static liars.dice.LiarsDice.diceRolled;
 /**
  *
  * @author Allen Raab 
@@ -181,5 +182,18 @@ public class Server {
                 stop();
             }
         }
+    }
+    
+    public static void reroll(){
+    for(int i = 0; i<diceRolled.length; i++){
+    diceRolled[i] = (int) (Math.random() * 6 + 1);
+    //System.out.println(diceRolled[i]);
+        }
+    }
+    
+    //creates a new Player
+    static public Player createPlayer(String Name, int startingDice, int playerNumber){
+        Player newPlayer = new Player(playerNumber,startingDice,Name);
+        return newPlayer;
     }
 }

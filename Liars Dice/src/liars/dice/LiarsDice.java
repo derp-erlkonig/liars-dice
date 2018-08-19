@@ -289,7 +289,7 @@ public class LiarsDice extends Application {
         public void handle (ActionEvent e) {
             
             diceRolled = new int[(diceComboBox.getSelectionModel().getSelectedIndex()+1) * (comboBox.getSelectionModel().getSelectedIndex()+1)];
-            reroll();
+            Server.reroll();
             confirmButton.setText("Clicked");
             for(int i = 0; i <= comboBox.getSelectionModel().selectedIndexProperty().get(); i++){
             playerGeneration(i, diceComboBox.getSelectionModel().getSelectedIndex()+1, nameField.getText());
@@ -308,18 +308,9 @@ public class LiarsDice extends Application {
     }
     
     //Creates the randomly generated set
-    public static void reroll(){
-    for(int i = 0; i<diceRolled.length; i++){
-    diceRolled[i] = (int) (Math.random() * 6 + 1);
-    //System.out.println(diceRolled[i]);
-        }
-    }
+    
 
-    //creates a new Player
-    static public Player createPlayer(String Name, int startingDice, int playerNumber){
-        Player newPlayer = new Player(playerNumber,startingDice,Name);
-        return newPlayer;
-    }
+    
         
  
     public static void playerGeneration(int counter, int diceNumber, String playerName){
@@ -329,7 +320,7 @@ public class LiarsDice extends Application {
         
         
         //testing out the player creation
-        Player player = createPlayer(playerName, diceNumber, counter);
+        Player player = Server.createPlayer(playerName, diceNumber, counter);
         
         //this sets it into its designated area
         player.setDiceNumbers(Arrays.copyOfRange(diceRolled, diceNumber*counter, player.getNumberOfDice()+(diceNumber*counter)));
